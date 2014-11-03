@@ -1,0 +1,12 @@
+
+.boggle-board {
+    display: flex;
+    flex-flow: row wrap;
+
+    padding: 0.5rem;
+
+    .boggle-die {
+        flex: 0 0 20%;
+    }
+
+}

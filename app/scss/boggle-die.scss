@@ -1,0 +1,30 @@
+
+
+.boggle-die {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+
+    .boggle-die__letter {
+
+		$padding: 0.2rem;
+    	position: absolute;
+	    top: $padding; right: $padding; bottom: $padding; left: $padding;
+
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    
+	    border: 3px solid #ddd;
+        border-radius: 5vw;
+        background: #fff;
+	    font-size: 10vw;
+    }
+
+    &::after {
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+
+}
