@@ -56,11 +56,11 @@ gulp.task('vendor', function(next){
     // generate vendor.js
     var bowerfiles = mainBowerFiles({
         includeDev: true,
-        paths: config.js.vendor.bower
+        paths: config.vendor.bower
     });
 
     // add other third party files
-    config.js.vendor.additional.forEach(function(file){
+    config.vendor.additional.forEach(function(file){
         bowerfiles.push(file);
     });
 

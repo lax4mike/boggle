@@ -17,8 +17,9 @@ gulp.task('connect', ['server'], function(){
     var server = require("../" + config.build + '/server/server.js'); 
     
     browserSync({
-		proxy: "localhost:8080",
-		// open: "external",
+		proxy: "localhost:8081",
+		port: 8080,
+		open: false, // or  "external"
 		notify: false,
 		files: [
 			config.dest + "/**"

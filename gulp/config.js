@@ -10,7 +10,8 @@ exports.tasks = ['connect', 'copy', 'css', 'js'];
 // html
 exports.html = {
 	src: [
-		root + "**/*.html"
+		root + "**/*.html",
+		"!" + root + "vendor/**"
 	],
 	watch: [
 		root + "**/*.html"
@@ -40,17 +41,18 @@ exports.js = {
     watch: [ 
     	[ root + "js/**/*.js", root + "js/**/*.jsx" ]
     ],
-    dest: dest + "js/",
-    vendor: {
-        bower: root + "vendor/js/",
-        additional: [
-            // manually adding this because selectboxit is not defining the "main" attribute in bower.json (also not defining it's depenancies)
-            // https://github.com/gfranko/jquery.selectBoxIt.js/issues/301
-            // root + "vendor/js/selectboxit/jquery-ui-widget-1.11.2.js",
-            // root + "vendor/js/selectboxit/jquery.selectBoxIt.js"
-        ]
-    }
+    dest: dest + "js/"
 };
+
+exports.vendor = {
+    bower: root + "vendor/",
+    additional: [
+    	// not sure why main-bower-files isn't picking this up
+    	// fuck it, i wrote my own utils
+        // root + "vendor/js/bower_components/react-addons/index.js"
+    ]
+};
+
 
 exports.browserify = {
 	debug: true

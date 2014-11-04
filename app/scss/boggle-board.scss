@@ -1,12 +1,15 @@
+@import "variables";
 
 .boggle-board {
     display: flex;
     flex-flow: row wrap;
+	margin: auto;
+    max-width: $board-max-width;
 
     padding: 0.5rem;
 
     .boggle-die {
-        flex: 0 0 20%;
+        flex: 0 0 percentage(1/$board-size);
     }
 
 }

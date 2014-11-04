@@ -1,4 +1,4 @@
-
+@import "variables";
 
 .boggle-die {
     position: relative;
@@ -7,18 +7,38 @@
 
     .boggle-die__letter {
 
-		$padding: 0.2rem;
-    	position: absolute;
-	    top: $padding; right: $padding; bottom: $padding; left: $padding;
+        $padding: 0.2rem;
+        position: absolute;
+        top: $padding; right: $padding; bottom: $padding; left: $padding;
 
-	    display: flex;
-	    justify-content: center;
-	    align-items: center;
-	    
-	    border: 3px solid #ddd;
-        border-radius: 5vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        border: 3px solid #ddd;
+        border-radius: $board-max-width/20;
         background: #fff;
-	    font-size: 10vw;
+        font-size: $board-max-width/10;
+        cursor: pointer;
+
+        transition: background 0.5s;
+
+        @media (max-width: $board-max-width)  {
+            border-radius: 5vw;
+            font-size: 10vw;
+        }
+
+        
+    }
+
+    &.selected .boggle-die__letter {
+        background: #ffffe0;
+    }
+    &.cardinal .boggle-die__letter {
+        background: #e0ffe0;
+    }
+    &.corner .boggle-die__letter {
+        background: #ffe0e0;
     }
 
     &::after {
