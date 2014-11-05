@@ -37,9 +37,7 @@ var BoggleBoard = Backbone.Model.extend({
         // for all 25 dice, recurse to try to find this query
         this.get('dice').forEach(function(die, i){
             
-            var trail = [];
-            var trails = [];
-            this.recurseSearch(die, query, trail, trails);
+            var trails = this.recurseSearch(die, query);
 
             if (trails.length > 0){
                 // if this die has at least 1 trail, add it/them
@@ -56,7 +54,10 @@ var BoggleBoard = Backbone.Model.extend({
 
     recurseSearch: function(die, query, trail, trails){
 
-        var query = query.toLowerCase();
+        if (trail === undefined){ trail = []; }
+        if (trails === undefined){ trails = []; } 
+
+        query = query.toLowerCase();
         var letter = die.get('letter').toLowerCase();
         var position = die.get('position');
 
@@ -73,9 +74,11 @@ var BoggleBoard = Backbone.Model.extend({
             trail.push(position);
 
             // if this is the last of the query, push this trail and return
-            if (subQuery == ""){
-                trails.push(trail);
-                return;
+            if (subQuery === ""){
+                if (trail.length > 0) {
+                    trails.push(trail);
+                }
+                return trails;
             }
 
             // otherwise, foreach adjacent die's, recurse
@@ -86,16 +89,15 @@ var BoggleBoard = Backbone.Model.extend({
 
         }
         
-
-        return;
+        return trails;
         
     },
 
     // return an array of all surrounding dice from the given die
     getAdjacentDice: function(die){
         var position = die.get('position');
-        var die = new BoggleMath(position, this.square);
-        var neighbors = die.getAdjacent(); // just indices
+        var math = new BoggleMath(position, this.square);
+        var neighbors = math.getAdjacent(); // just indices
         
         var allDice = this.get('dice');
         
