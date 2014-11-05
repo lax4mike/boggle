@@ -1,13 +1,12 @@
 var root = "./"
 var BoggleBoardModel = require("./BoggleBoard/BoggleBoardModel");
-var BoggleBoardView  = require("./BoggleBoard/BoggleBoardView.jsx");
+var BoggleApp  = require("./BoggleApp/BoggleAppView.jsx");
 var boardSize = 5;
 
-var bb = new BoggleBoardModel({square: boardSize});
-var dice = bb.get('dice');
+var boardModel = new BoggleBoardModel({square: boardSize});
 
 
 React.render(
-	<BoggleBoardView dice={dice} square={boardSize} />,
-	document.body
+    <BoggleApp boardModel={boardModel} />,
+    document.body
 );  

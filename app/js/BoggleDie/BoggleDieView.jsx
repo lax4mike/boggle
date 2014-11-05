@@ -12,19 +12,17 @@ var BoggleDieView = React.createClass({
  
     render: function(){
 
-        var classes = joinClasses({
-            'boggle-die': true,
-            'selected': this.props.selected,
-            'cardinal': this.props.cardinal,
-            'corner': this.props.corner
-        });
+        var classes = joinClasses(this.props.classMap);
 
         return (
-            <div className={classes} 
+            <div className={"boggle-die " + classes} 
                 onMouseEnter={this.props.onMouseEnter} 
                 onMouseLeave={this.props.onMouseLeave}>
                 <span className="boggle-die__letter">
                     {this.props.letter}
+                </span> 
+                <span className="boggle-die__index">
+                    {this.props.index} 
                 </span> 
             </div>
 

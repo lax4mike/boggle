@@ -2,7 +2,8 @@ var BoggleDie = Backbone.Model.extend({
 
     defaults: {
         letters: [],
-        letter: null
+        letter: null,
+        position: null, // position in boggle board
     },
 
     initialize: function(attributes, options) {

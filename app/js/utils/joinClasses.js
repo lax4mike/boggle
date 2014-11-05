@@ -1,21 +1,21 @@
 (function(){
-	"use strict";
+    "use strict";
 
-	function joinClasses(classMap){
+    function joinClasses(classMap){
 
-		var classes = [];
-		Object.keys(classMap).forEach(function(className){
-			
-			if (classMap[className]){
-				classes.push(className);
-			}
-		});
+        var classes = [];
+        Object.keys(classMap).forEach(function(className){
+            
+            if (classMap[className]){
+                classes.push(className);
+            }
+        });
 
-		return classes.join(" ");
+        return classes.join(" ");
 
-	}
+    }
 
 
-	module.exports = joinClasses;
+    module.exports = joinClasses;
 
 }());

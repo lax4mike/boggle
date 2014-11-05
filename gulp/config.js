@@ -22,10 +22,12 @@ exports.html = {
 // css
 exports.css = {
 	src: [
-		root + "scss/**/*.scss"
+		root + "scss/**/*.scss",
+		root + "js/**/*.scss"
 	],
 	watch: [
-		root + "scss/**/*.scss"
+		root + "scss/**/*.scss",
+		root + "js/**/*.scss"
 	],
 	dest: dest + "css"
 };

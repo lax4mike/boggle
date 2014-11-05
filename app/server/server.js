@@ -9,18 +9,10 @@ var root = path.resolve(__dirname, '../public');
 app.use(express.static(root));
 
 
-// app.get('/', function(req, res){
-//     res.sendFile(root + '/index.html');
-// });
 
 
-app.get('/test', function(req, res){
-    res.send("HELLO");
-});
-
-
-server.listen(8081);
-console.log('Listening on port 8081...');
+server.listen(3000);
+console.log('Listening on port 3000...');
 
 module.exports = app;
 

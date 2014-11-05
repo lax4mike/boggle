@@ -1,4 +1,4 @@
-@import "variables";
+@import "../../scss/variables";
 
 .boggle-die {
     position: relative;
@@ -29,6 +29,14 @@
         }
 
         
+    }
+
+    .boggle-die__index {
+        font-size: 12px;
+        position: absolute;
+        bottom: 1px; 
+        left: 100%;
+        transform: translateX(-8px)
     }
 
     &.selected .boggle-die__letter {

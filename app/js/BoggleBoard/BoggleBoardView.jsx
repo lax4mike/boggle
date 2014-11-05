@@ -3,7 +3,14 @@ var BoggleMath = require("../utils/BoggleMath");
 
 var BoggleBoard = React.createClass({
 
+    // extract some variables from the boardModel
+    componentWillMount: function(){
+        this.dice = this.props.boardModel.get('dice');
+        this.square = this.props.boardModel.get('square');
+    },
+
     getInitialState: function(){
+
         return {
             selected: null,
             cardinal: [],
@@ -11,9 +18,9 @@ var BoggleBoard = React.createClass({
         };
     },
 
-    handleMouseEnter: function(i) {
+    handleDieEnter: function(i) {
 
-        var die = new BoggleMath(i, this.props.square);
+        var die = new BoggleMath(i, this.square);
         var cardinal = [];
 
         // console.log(i, die.getCardinal({format: "object"}));
@@ -26,7 +33,7 @@ var BoggleBoard = React.createClass({
         });
     },
 
-    handleMouseLeave: function(i) {
+    handleDieLeave: function(i) {
         this.setState(this.getInitialState());
     },
 
@@ -34,18 +41,23 @@ var BoggleBoard = React.createClass({
 
         return (
             <div className='boggle-board'>
-                {this.props.dice.map(function (die, i) {
-                    return 
-                        BoggleDie({
-                            key: i,
-                            letter: die.get('letter') ,
-                            selected: this.state.selected == i,
-                            cardinal: _.contains(this.state.cardinal, i),
-                            corner: _.contains(this.state.corners, i),
-                            onMouseEnter: this.handleMouseEnter.bind(this, i),
-                            onMouseLeave: this.handleMouseLeave.bind(this, i) ,
-                        });
-                    
+                {this.dice.map(function (die, i) {
+
+                    var classMap = {
+                        'selected': this.state.selected == i,
+                        'cardinal': _.contains(this.state.cardinal, i),
+                        'corner': _.contains(this.state.corners, i)
+                    };
+
+                    return (
+                        <BoggleDie
+                            key={i}
+                            index={i}
+                            letter={die.get('letter')}
+                            classMap={classMap}
+                            onMouseEnter={this.handleDieEnter.bind(this, i)}
+                            onMouseLeave={this.handleDieLeave.bind(this, i)} />
+                    );
                 }, this)}
             </div>
         );
