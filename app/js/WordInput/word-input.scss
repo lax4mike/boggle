@@ -31,6 +31,10 @@
             text-transform: uppercase;
             font-family: "Trebuchet MS", sans-serif;
             padding: 0.25em;
+
+            &:focus {
+                outline: 0;
+            }
         }
 
         button {
