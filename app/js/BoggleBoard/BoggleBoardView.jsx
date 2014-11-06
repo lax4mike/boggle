@@ -21,10 +21,6 @@ var BoggleBoard = React.createClass({
     handleDieEnter: function(i) {
 
         var die = new BoggleMath(i, this.square);
-        var cardinal = [];
-
-        // console.log(i, die.getCardinal({format: "object"}));
-        // console.log(i, die.getCorners({format: "object"}));
 
         this.setState({
             selected: i,
@@ -35,6 +31,10 @@ var BoggleBoard = React.createClass({
 
     handleDieLeave: function(i) {
         this.setState(this.getInitialState());
+    },
+
+    handleDieClick: function(die){
+        this.props.onDieClick(die.get('letter'))
     },
 
     render: function(){ 
@@ -55,8 +55,10 @@ var BoggleBoard = React.createClass({
                             index={i}
                             letter={die.get('letter')}
                             classMap={classMap}
-                            onMouseEnter={this.handleDieEnter.bind(this, i)}
-                            onMouseLeave={this.handleDieLeave.bind(this, i)} />
+                            // onMouseEnter={this.handleDieEnter.bind(this, i)}
+                            // onMouseLeave={this.handleDieLeave.bind(this, i)} 
+                            onClick={this.handleDieClick.bind(this, die)}
+                        />
                     );
                 }, this)}
             </div>

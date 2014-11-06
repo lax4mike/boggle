@@ -8,7 +8,6 @@ var gulp           = require('gulp'),
     gulpBrowserify = require('gulp-browserify'),
     react          = require('gulp-react'),
     uglify         = require('gulp-uglify'),
-    gutil          = require('gulp-util'),
     source         = require('vinyl-source-stream'), // https://medium.com/@sogko/gulp-browserify-the-gulp-y-way-bb359b3f9623
     mainBowerFiles = require('main-bower-files');
 

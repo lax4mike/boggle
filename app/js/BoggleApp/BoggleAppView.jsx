@@ -4,39 +4,56 @@ var WordInput = require("../WordInput/WordInputView.jsx");
 
 var BoggleAppView = React.createClass({
 
-    componentWillMount: function(){
-        
-    },
-
     getInitialState: function(){
         return {
-            query: '',
-            console: ''
+            query: ''
         }
     },
 
-    handleWordChange: function(word){
-        this.setState({query: word});
+    onDieClick: function(letter){
+        this.handleWordChange(this.state.query + letter);
+    },
 
+    handleWordChange: function(word){
+        this.setState({ query: word.toLowerCase() });
+    },
+
+    handleSubmit: function(word){
+        console.log("lookup " + word + "!");
+        this.setState({query: ''});
+    },
+
+    showTrails: function(){
+
+        var word = this.state.query;
         var trails = this.props.boardModel.search(word);
 
+        console.log("------------------");
+        console.log(word);
         if (trails.length){
-            console.log("------------------");
-            console.log(word);
             trails.forEach(function(trail){
                 console.log(trail.join(" -> "));
             });
-
         }
 
     },
 
     render: function(){
+
+        this.showTrails();
+
+
         return (
             <div className="boggle-app">
                 <BoggleBoard 
-                    boardModel={this.props.boardModel} />
-                <WordInput onChange={this.handleWordChange} />
+                    boardModel={this.props.boardModel}
+                    onDieClick={this.onDieClick}
+                />
+                <WordInput 
+                    word={this.state.query}
+                    onChange={this.handleWordChange} 
+                    onSubmit={this.handleSubmit}
+                />
                 <div className='console'>{this.state.console}</div>
             </div>
         );
