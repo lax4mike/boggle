@@ -65,7 +65,7 @@ gulp.task('vendor', function(next){
         bowerfiles.push(file);
     });
 
-    // console.log("bower files: ", bowerfiles);
+    console.log("bower files: ", bowerfiles);
 
     gulp.src(bowerfiles)
         .pipe(utils.drano())

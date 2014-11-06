@@ -1,4 +1,5 @@
 var BoggleDieModel = require("../BoggleDie/BoggleDieModel");
+var BoggleTrail = require("../utils/BoggleTrail");
 var BoggleMath = require("../utils/BoggleMath");
 
 var BoggleBoard = Backbone.Model.extend({
@@ -21,6 +22,7 @@ var BoggleBoard = Backbone.Model.extend({
         }));
 
         // store the position on the die, so we don't have to look it up everytime.
+        // which also creates a BoggleMath object
         boggleDice.forEach(function(die, position){
             die.set('position', position);
         });
@@ -42,7 +44,7 @@ var BoggleBoard = Backbone.Model.extend({
             if (trails.length > 0){
                 // if this die has at least 1 trail, add it/them
                 trails.forEach(function(trail){
-                    allTrails.push(trail);
+                    allTrails.push(new BoggleTrail(trail));
                 });
             }
 
@@ -95,10 +97,8 @@ var BoggleBoard = Backbone.Model.extend({
 
     // return an array of all surrounding dice from the given die
     getAdjacentDice: function(die){
-        var position = die.get('position');
-        var math = new BoggleMath(position, this.square);
-        var neighbors = math.getAdjacent(); // just indices
-        
+
+        var neighbors = die.get('math').getAdjacent(); // just positions
         var allDice = this.get('dice');
         
         return neighbors.map(function(i){
