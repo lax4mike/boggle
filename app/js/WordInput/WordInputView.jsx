@@ -7,8 +7,9 @@ var WordInput = React.createClass({
     	this.props.onChange(word);
     },
 
-    handleSubmit: function(){
-        this.props.onSubmit(this.props.word);
+    handleSubmit: function(e){
+        e.preventDefault()
+        this.props.onSubmit(e, this.props.word);
     },
 
     backspace: function(){
