@@ -1,4 +1,5 @@
 var BoggleDieModel = require("../BoggleDie/BoggleDieModel");
+var BoggleTrail = require("../utils/BoggleTrail");
 var BoggleMath = require("../utils/BoggleMath");
 
 var BoggleBoard = Backbone.Model.extend({
@@ -21,6 +22,7 @@ var BoggleBoard = Backbone.Model.extend({
         }));
 
         // store the position on the die, so we don't have to look it up everytime.
+        // which also creates a BoggleMath object
         boggleDice.forEach(function(die, position){
             die.set('position', position);
         });
@@ -37,14 +39,12 @@ var BoggleBoard = Backbone.Model.extend({
         // for all 25 dice, recurse to try to find this query
         this.get('dice').forEach(function(die, i){
             
-            var trail = [];
-            var trails = [];
-            this.recurseSearch(die, query, trail, trails);
+            var trails = this.recurseSearch(die, query);
 
             if (trails.length > 0){
                 // if this die has at least 1 trail, add it/them
                 trails.forEach(function(trail){
-                    allTrails.push(trail);
+                    allTrails.push(new BoggleTrail(trail));
                 });
             }
 
@@ -56,7 +56,10 @@ var BoggleBoard = Backbone.Model.extend({
 
     recurseSearch: function(die, query, trail, trails){
 
-        var query = query.toLowerCase();
+        if (trail === undefined){ trail = []; }
+        if (trails === undefined){ trails = []; } 
+
+        query = query.toLowerCase();
         var letter = die.get('letter').toLowerCase();
         var position = die.get('position');
 
@@ -73,9 +76,11 @@ var BoggleBoard = Backbone.Model.extend({
             trail.push(position);
 
             // if this is the last of the query, push this trail and return
-            if (subQuery == ""){
-                trails.push(trail);
-                return;
+            if (subQuery === ""){
+                if (trail.length > 0) {
+                    trails.push(trail);
+                }
+                return trails;
             }
 
             // otherwise, foreach adjacent die's, recurse
@@ -86,17 +91,14 @@ var BoggleBoard = Backbone.Model.extend({
 
         }
         
-
-        return;
+        return trails;
         
     },
 
     // return an array of all surrounding dice from the given die
     getAdjacentDice: function(die){
-        var position = die.get('position');
-        var die = new BoggleMath(position, this.square);
-        var neighbors = die.getAdjacent(); // just indices
-        
+
+        var neighbors = die.get('math').getAdjacent(); // just positions
         var allDice = this.get('dice');
         
         return neighbors.map(function(i){

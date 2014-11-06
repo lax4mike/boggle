@@ -1,15 +1,22 @@
+var BoggleMath = require("../utils/BoggleMath");
+
 var BoggleDie = Backbone.Model.extend({
 
     defaults: {
         letters: [],
         letter: null,
         position: null, // position in boggle board
+        math: null // BoggleMath object
     },
 
     initialize: function(attributes, options) {
         
         this.on("invalid", function(model, error) {
             console.log(error);
+        });
+
+        this.on("change:position", function(){
+            this.set('math', new BoggleMath(this.get('position')));
         });
 
         this.role();

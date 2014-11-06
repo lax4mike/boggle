@@ -1,12 +1,31 @@
 @import "../../scss/variables";
 
+
+.boggle-board-container {
+    padding: 0.5rem;
+    
+}
+
 .boggle-board {
-    display: flex;
-    flex-flow: row wrap;
-	margin: auto;
+    position: relative;
+    margin: auto;
     max-width: $board-max-width;
 
-    padding: 0.5rem;
+    .trail-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+    }
+}
+
+.boggle-board__dice {
+    display: flex;
+    flex-flow: row wrap;
+
+
+
 
     .boggle-die {
         flex: 0 0 percentage(1/$board-size);

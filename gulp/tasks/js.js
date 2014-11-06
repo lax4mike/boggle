@@ -4,10 +4,11 @@ var gulp           = require('gulp'),
     concat         = require('gulp-concat'),
     filter         = require('gulp-filter'),
     browserify     = require('browserify'),
+    reactify       = require('reactify'),
     gulpBrowserify = require('gulp-browserify'),
     react          = require('gulp-react'),
+    uglify         = require('gulp-uglify'),
     source         = require('vinyl-source-stream'), // https://medium.com/@sogko/gulp-browserify-the-gulp-y-way-bb359b3f9623
-    reactify       = require('reactify'),
     mainBowerFiles = require('main-bower-files');
 
 // maybe we'll do this someday if we can integrate it with bower
@@ -64,14 +65,14 @@ gulp.task('vendor', function(next){
         bowerfiles.push(file);
     });
 
-    // console.log("bower files: ", bowerfiles);
+    console.log("bower files: ", bowerfiles);
 
     gulp.src(bowerfiles)
         .pipe(utils.drano())
         .pipe(filterByExtension('js'))
         .pipe(concat('vendor.js'))
+        .pipe(uglify())
         .pipe(gulp.dest(config.js.dest));
-
 });
 
 

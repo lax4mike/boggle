@@ -108,11 +108,24 @@
         // return ne nw se sw
         getCorners: function(options){
             return this.getAdjacent(['ne', 'nw', 'se', 'sw'], options);
+        },
+
+        getCoordinates: function(){
+            return {
+                x: (this.die % this.square) + 1,
+                y: Math.floor(this.die / this.square) + 1
+            };
         }
 
     };
 
+    // _.range(25).forEach(function(pos){
+    //     console.log(new BoggleMath(pos).getCoordinates());
+    // });
+
     module.exports = BoggleMath;
 
 }());
+
+
 

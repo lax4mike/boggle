@@ -21,10 +21,6 @@ var BoggleBoard = React.createClass({
     handleDieEnter: function(i) {
 
         var die = new BoggleMath(i, this.square);
-        var cardinal = [];
-
-        // console.log(i, die.getCardinal({format: "object"}));
-        // console.log(i, die.getCorners({format: "object"}));
 
         this.setState({
             selected: i,
@@ -37,28 +33,39 @@ var BoggleBoard = React.createClass({
         this.setState(this.getInitialState());
     },
 
+    handleDieClick: function(die){
+        this.props.onDieClick(die.get('letter'))
+    },
+
     render: function(){ 
 
         return (
-            <div className='boggle-board'>
-                {this.dice.map(function (die, i) {
+            <div className='boggle-board-container'>
+                <div className='boggle-board'>
+                    <div className='boggle-board__dice'>
+                        {this.dice.map(function (die, i) {
 
-                    var classMap = {
-                        'selected': this.state.selected == i,
-                        'cardinal': _.contains(this.state.cardinal, i),
-                        'corner': _.contains(this.state.corners, i)
-                    };
+                            var classMap = {
+                                'selected': this.state.selected == i,
+                                'cardinal': _.contains(this.state.cardinal, i),
+                                'corner': _.contains(this.state.corners, i)
+                            };
 
-                    return (
-                        <BoggleDie
-                            key={i}
-                            index={i}
-                            letter={die.get('letter')}
-                            classMap={classMap}
-                            onMouseEnter={this.handleDieEnter.bind(this, i)}
-                            onMouseLeave={this.handleDieLeave.bind(this, i)} />
-                    );
-                }, this)}
+                            return (
+                                <BoggleDie
+                                    key={i}
+                                    index={i}
+                                    letter={die.get('letter')}
+                                    classMap={classMap}
+                                    // onMouseEnter={this.handleDieEnter.bind(this, i)}
+                                    // onMouseLeave={this.handleDieLeave.bind(this, i)} 
+                                    onClick={this.handleDieClick.bind(this, die)}
+                                />
+                            );
+                        }, this)}
+                    </div>
+                    <svg className="trail-overlay"></svg>
+                </div>
             </div>
         );
  

@@ -2,16 +2,72 @@
 @import "../../scss/variables";
 
 .word-input {
-	max-width: $board-max-width;
-	margin: auto;
-	padding: 1rem;
-	input {
-		font-size: $board-max-width/10;
-		max-width: 100%;
-		text-align: center;
-		-webkit-appearance: none;
-		appearance: none;
+    max-width: $board-max-width;
+    margin: auto;
+    padding: 1rem;
+    
 
-		border: 1px solid #999;
-	}
+    form {
+        display: flex;
+        font-size: $board-max-width/14;
+
+        $radius: 10px;
+
+        &::first-child {
+            border-top-left-radius: $radius;
+            border-bottom-left-radius: $radius;
+        }
+    
+        $border: 1px solid #999;
+
+        input[type='text'] {
+            flex: 1 1 auto;
+            font-size: 1em;
+            max-width: 100%;
+            text-align: center;
+            -webkit-appearance: none;
+            appearance: none;
+            border: $border;
+            text-transform: uppercase;
+            font-family: "Trebuchet MS", sans-serif;
+            padding: 0.25em;
+        }
+
+        button {
+            flex: 0 0 auto;
+            font-family: "Trebuchet MS", sans-serif;
+            appearance: none;
+            border: 0;
+            font-size: 1em;
+            padding: 0;
+            min-width: 1.6em;
+            border: $border;
+            cursor: pointer;
+        }
+
+        button.submit {
+            background: $lion-ghost;
+            color: $lion-front;
+            border-top-right-radius: $radius;
+            border-bottom-right-radius: $radius;
+            
+            &::hover {
+                background: $dragon-back;
+            }
+        }
+
+        button.clear {
+            background: $dragon-ghost;
+            color: $dragon-front;
+            border-top-left-radius: $radius;
+            border-bottom-left-radius: $radius;
+            
+            &::hover {
+                background: $dragon-back;
+            }
+        }
+
+
+    }
 }
+
