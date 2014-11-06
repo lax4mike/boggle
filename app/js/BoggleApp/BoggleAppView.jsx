@@ -18,7 +18,7 @@ var BoggleAppView = React.createClass({
         this.setState({ query: word.toLowerCase() });
     },
 
-    handleSubmit: function(word){
+    handleSubmit: function(e, word){
         console.log("lookup " + word + "!");
         this.setState({query: ''});
     },
@@ -37,7 +37,6 @@ var BoggleAppView = React.createClass({
             "rgba( 46, 204, 113, 0.5)", // green
             "rgba(241, 196, 15,  0.5)", // yellow
             "rgba(155,  89, 182, 0.5)", // purple
-            "rgba(149, 165, 166, 0.5)" // gray
         ]
 
         console.log("------------------");
