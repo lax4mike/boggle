@@ -32,6 +32,8 @@ var BoggleBoard = Backbone.Model.extend({
 
     },
 
+
+    // return an array of BoggleTrails, one for each possible trail
     search: function(query){
 
         var allTrails = [];

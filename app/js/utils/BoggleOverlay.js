@@ -8,6 +8,11 @@ var BoggleTrail = require('./BoggleTrail');
         this.svg = d3.select(selector);
         this.i = 0; // to keep track of colors
         dieWidth = $('.boggle-die').width();
+
+        this.multiColor = false; 
+
+        this.svg.attr('opacity', (this.multiColor) ? 0.3 : 0.9);
+
     };
 
     BoggleOverlay.prototype = {
@@ -15,40 +20,44 @@ var BoggleTrail = require('./BoggleTrail');
         // draw a trail (with a different color every time)
         drawTrail: function(trail){
 
+            // prepare line data
             var lineData = trail.toCoordinateArray();
 
-            // draw circle if it's one point
-            if (lineData.length == 1){
-            
-                this.svg.append("circle")
-                    .attr('r', 15)
-                    .attr('cx', lineData[0].x * dieWidth - dieWidth/2)
-                    .attr('cy', lineData[0].y * dieWidth - dieWidth/2)
-                    .style('fill', colors[ this.i++ % colors.length ]);
-                return;
-            }
-
-            // otherwise, draw line
+            // extract the x,y coordinates and figure out offset
             var lineFunction = d3.svg.line()
-                .x(function(d) { 
-                    return d.x * dieWidth - dieWidth/2; // - l*3 + (i * l); 
-                })
-                .y(function(d) { 
-                    return d.y * dieWidth - dieWidth/2; // - l*3 + (i * l);
-                     })
+                .x(function(d) { return d.x * dieWidth - dieWidth/2; })
+                .y(function(d) { return d.y * dieWidth - dieWidth/2; })
                 .interpolate("linear");
 
 
-            this.svg.append("path")
+            // create group that will house the cirle and line
+            var g = this.svg.insert("g", ":first-child")
+                .attr("data-i", this.i)
+                .attr('opacity', (this.multiColor) ? 1 : 0.3);
+
+
+            // draw circle 
+            g.insert("circle", ":first-child")
+                .attr('r', 20)
+                .attr('cx', lineData[0].x * dieWidth - dieWidth/2)
+                .attr('cy', lineData[0].y * dieWidth - dieWidth/2)
+                .style('fill', (this.multiColor) ? colors[ this.i % colors.length ] : colors[0]);
+
+
+            // draw line
+            g.insert("path", ":first-child")
                 .attr("d", lineFunction(lineData))
-                .attr("stroke", colors[ this.i % colors.length ])
+                .attr('stroke', (this.multiColor) ? colors[ this.i % colors.length ] : colors[0])
                 .attr("stroke-width", 20)
                 .attr("stroke-linecap", "round")
                 .attr("stroke-linejoin", "round")
                 .attr("fill", "none");
 
+
+
             this.i++;
         },
+
 
         // clear the svg
         clear: function(){ 
@@ -60,16 +69,15 @@ var BoggleTrail = require('./BoggleTrail');
     module.exports = BoggleOverlay;
 
 
-
     // private variables
     var dieWidth = 0;
 
     var colors = [
-        "rgba( 52, 152, 219, 0.333)", // blue
-        "rgba(231,  76, 60,  0.333)", // red
-        "rgba( 46, 204, 113, 0.333)", // green
-        "rgba(241, 196, 15,  0.333)", // yellow
-        "rgba(155,  89, 182, 0.333)", // purple
+        "rgba( 52, 152, 219, 1)", // blue
+        "rgba(241, 196, 15,  1)", // yellow
+        "rgba( 46, 204, 113, 1)", // green
+        "rgba(231,  76, 60,  1)", // red
+        "rgba(155,  89, 182, 1)", // purple
     ];
 
 

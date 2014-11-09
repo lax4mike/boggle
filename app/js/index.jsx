@@ -10,3 +10,8 @@ React.render(
     <BoggleApp boardModel={boardModel} />,
     document.body
 );  
+
+
+$(function(){
+	$(".word-input input").focus();
+});
