@@ -11,14 +11,18 @@
         display: flex;
         font-size: $board-max-width/14;
 
+
         $radius: 10px;
+        border-radius: $radius;
+        background: #fff;
+        border: 1px solid #999;
+
+        
 
         &::first-child {
             border-top-left-radius: $radius;
             border-bottom-left-radius: $radius;
         }
-    
-        $border: 1px solid #999;
 
         input[type='text'] {
             flex: 1 1 auto;
@@ -27,7 +31,8 @@
             text-align: center;
             -webkit-appearance: none;
             appearance: none;
-            border: $border;
+            border: none;
+            background: none;
             text-transform: uppercase;
             font-family: "Trebuchet MS", sans-serif;
             padding: 0.25em;
@@ -45,29 +50,38 @@
             font-size: 1em;
             padding: 0;
             min-width: 1.6em;
-            border: $border;
             cursor: pointer;
+            background: none;
+
+            &:focus {
+                outline: none;
+            }
         }
 
         button.submit {
-            background: $lion-ghost;
-            color: $lion-front;
-            border-top-right-radius: $radius;
-            border-bottom-right-radius: $radius;
-            
-            &::hover {
-                background: $dragon-back;
+            display: flex;
+
+            padding: 0 0.25rem;
+
+            span {
+                display: inline-block;
+                background: $lion-back;
+                color: $lion-front;
+                font-size: 0.85rem;
+                padding: 0 0.5rem;
+                border-radius: $radius;
+                line-height: 2rem;
+                height: 2rem;
+                border: 1px solid #333;
             }
         }
 
         button.clear {
-            background: $dragon-ghost;
-            color: $dragon-front;
-            border-top-left-radius: $radius;
-            border-bottom-left-radius: $radius;
-            
-            &::hover {
-                background: $dragon-back;
+            display: flex;
+
+            svg {
+                
+                padding: 0 0.25rem;
             }
         }
 

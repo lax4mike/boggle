@@ -21,6 +21,7 @@ gulp.task('connect', ['server'], function(){
 		port: 8080,
 		open: false, // or  "external"
 		notify: false,
+		ghostMode: false,
 		files: [
 			config.dest + "/**"
 		]

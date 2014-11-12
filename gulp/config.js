@@ -5,7 +5,7 @@ var dest = exports.dest = build + "/public/";
 
 exports.watch = true;
 
-exports.tasks = ['connect', 'copy', 'css', 'js'];
+exports.tasks = ['connect', 'copy', 'css', 'js', 'images'];
 
 // html
 exports.html = {
@@ -53,6 +53,12 @@ exports.vendor = {
     	// fuck it, i wrote my own utils
         // root + "vendor/js/bower_components/react-addons/index.js"
     ]
+};
+
+exports.svg = {
+	src: root + "/img/**/*.svg",
+	watch: root + "/img/**/*.svg",
+	dest: dest + "/img"
 };
 
 

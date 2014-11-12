@@ -38,24 +38,41 @@ var BoggleTrail = require('./BoggleTrail');
 
             // draw circle 
             g.insert("circle", ":first-child")
-                .attr('r', 20)
+                .attr('r', dieWidth/4)
                 .attr('cx', lineData[0].x * dieWidth - dieWidth/2)
                 .attr('cy', lineData[0].y * dieWidth - dieWidth/2)
                 .style('fill', (this.multiColor) ? colors[ this.i % colors.length ] : colors[0]);
 
 
+            
+
             // draw line
-            g.insert("path", ":first-child")
+            var path = g.insert("path", ":first-child")
                 .attr("d", lineFunction(lineData))
                 .attr('stroke', (this.multiColor) ? colors[ this.i % colors.length ] : colors[0])
-                .attr("stroke-width", 20)
+                .attr("stroke-width", dieWidth/4)
                 .attr("stroke-linecap", "round")
                 .attr("stroke-linejoin", "round")
                 .attr("fill", "none");
 
-
+            // transition
+            // this.animatePath(path);
 
             this.i++;
+        },
+
+        animatePath: function(path, duration){
+
+            duration = duration || 300;
+
+            var totalLength = path.node().getTotalLength();
+
+            path.attr("stroke-dasharray", totalLength + " " + totalLength)
+                .attr("stroke-dashoffset", totalLength)
+                .transition()
+                    .duration(duration)
+                    .ease("linear")
+                    .attr("stroke-dashoffset", 0);
         },
 
 

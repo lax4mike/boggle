@@ -36,15 +36,18 @@
         position: absolute;
         bottom: 1px; 
         left: 100%;
-        transform: translateX(-8px)
+        transform: translateX(-8px);
+        display: none;
     }
 
     &.selected .boggle-die__letter {
         background: #ffffe0;
     }
+
     &.cardinal .boggle-die__letter {
         background: #e0ffe0;
     }
+    
     &.corner .boggle-die__letter {
         background: #ffe0e0;
     }
