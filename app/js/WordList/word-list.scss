@@ -1,0 +1,17 @@
+@import "../../scss/variables";
+
+.word-list {
+    max-width: $board-max-width;
+    margin: auto;
+
+    .word {
+        display: inline-block;
+        margin: 0.25rem;
+        border-radius: 6px;
+        border: 1px solid #000;
+        background: #e0ffe0;
+        padding: 0.25rem 1rem;
+        cursor: pointer;
+    }
+
+}

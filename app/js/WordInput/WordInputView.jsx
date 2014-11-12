@@ -1,5 +1,3 @@
-
-
 var WordInput = React.createClass({
 
     handleChange: function(e){
@@ -25,7 +23,9 @@ var WordInput = React.createClass({
                     <button className='clear' type='button' onClick={this.backspace}>
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 54.035 37"><g fill="none" stroke="#666" strokeWidth="5" stroke-miterlimit="10"><path d="M26.208 25.827l14.654-14.654M26.208 11.173l14.654 14.654"/></g><path fill="none" stroke="#666" strokeWidth="5" stroke-miterlimit="10" d="M19.535 34.5h32v-32h-32l-16 16z"/></svg>
                     </button>
-                    <input type='text' onChange={this.handleChange} value={this.props.word}/>
+                    <input type='text' value={this.props.word}
+                        onChange={this.handleChange} onFocus={this.handleChange}
+                    />
                     <button className='submit' type='submit'><span>Go</span></button>
                 </form>
     		</div>

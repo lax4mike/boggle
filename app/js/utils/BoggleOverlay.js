@@ -20,6 +20,9 @@ var BoggleTrail = require('./BoggleTrail');
         // draw a trail (with a different color every time)
         drawTrail: function(trail){
 
+            // only draw first trail
+            if (this.i > 0){ return; }
+
             // prepare line data
             var lineData = trail.toCoordinateArray();
 
@@ -27,7 +30,7 @@ var BoggleTrail = require('./BoggleTrail');
             var lineFunction = d3.svg.line()
                 .x(function(d) { return d.x * dieWidth - dieWidth/2; })
                 .y(function(d) { return d.y * dieWidth - dieWidth/2; })
-                .interpolate("linear");
+                .interpolate("linear"); 
 
 
             // create group that will house the cirle and line
@@ -35,22 +38,27 @@ var BoggleTrail = require('./BoggleTrail');
                 .attr("data-i", this.i)
                 .attr('opacity', (this.multiColor) ? 1 : 0.3);
 
+            var color = (this.multiColor) ? colors[ this.i % colors.length ]
+                            : (this.i === 0) ? colors[0] 
+                            : colors[1];
+
+            var size = (this.i === 0) ? dieWidth/4 : 4;
 
             // draw circle 
             g.insert("circle", ":first-child")
-                .attr('r', dieWidth/4)
+                .attr('r', size)
                 .attr('cx', lineData[0].x * dieWidth - dieWidth/2)
                 .attr('cy', lineData[0].y * dieWidth - dieWidth/2)
-                .style('fill', (this.multiColor) ? colors[ this.i % colors.length ] : colors[0]);
+                .style('fill', color);
 
 
             
-
+            
             // draw line
             var path = g.insert("path", ":first-child")
                 .attr("d", lineFunction(lineData))
-                .attr('stroke', (this.multiColor) ? colors[ this.i % colors.length ] : colors[0])
-                .attr("stroke-width", dieWidth/4)
+                .attr('stroke', color)
+                .attr("stroke-width", size)
                 .attr("stroke-linecap", "round")
                 .attr("stroke-linejoin", "round")
                 .attr("fill", "none");
@@ -91,9 +99,9 @@ var BoggleTrail = require('./BoggleTrail');
 
     var colors = [
         "rgba( 52, 152, 219, 1)", // blue
+        "rgba(231,  76, 60,  1)", // red
         "rgba(241, 196, 15,  1)", // yellow
         "rgba( 46, 204, 113, 1)", // green
-        "rgba(231,  76, 60,  1)", // red
         "rgba(155,  89, 182, 1)", // purple
     ];
 

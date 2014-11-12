@@ -52,6 +52,7 @@ exports.vendor = {
     	// not sure why main-bower-files isn't picking this up
     	// fuck it, i wrote my own utils
         // root + "vendor/js/bower_components/react-addons/index.js"
+        root + "js/utils/words.js"
     ]
 };
 

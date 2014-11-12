@@ -73,6 +73,8 @@ gulp.task('vendor', function(next){
         .pipe(concat('vendor.js'))
         .pipe(uglify())
         .pipe(gulp.dest(config.js.dest));
+
+    next();
 });
 
 
