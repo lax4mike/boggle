@@ -34,7 +34,7 @@ var BoggleBoard = React.createClass({
     },
 
     handleDieClick: function(die){
-        this.props.onDieClick(die.get('letter'))
+        this.props.onDieClick(die);
     },
 
     render: function(){ 

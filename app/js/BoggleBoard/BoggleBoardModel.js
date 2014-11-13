@@ -63,10 +63,9 @@ var BoggleBoard = Backbone.Model.extend({
 
         query = query.toLowerCase();
         var letter = die.get('letter').toLowerCase();
-        var position = die.get('position');
 
         // you can't used the same die twice!
-        if (_.contains(trail, position)){ return; }
+        if (_.contains(trail, die)){ return; }
 
         // if the query starts with the letter...
         if (query.match(new RegExp("^" + letter))){
@@ -75,7 +74,7 @@ var BoggleBoard = Backbone.Model.extend({
             var subQuery = query.slice(letter.length);
             
             // add this die to the trail
-            trail.push(position);
+            trail.push(die);
 
             // if this is the last of the query, push this trail and return
             if (subQuery === ""){

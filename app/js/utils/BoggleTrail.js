@@ -1,4 +1,5 @@
 var BoggleMath = require('./BoggleMath');
+var BoggleDie  = require('../BoggleDie/BoggleDieModel.js');
 
 /*
 
@@ -14,8 +15,8 @@ var BoggleMath = require('./BoggleMath');
 (function(){
     "use strict";
 
-    // trail is an array of die positions
-    // eg. [0, 6, 12, 18]
+    // trail is an array of BoggleDieModel
+    // eg. [BoggleDie, BoggleDie, BoggleDie, BoggleDie]
     var BoggleTrail = function(trail){
         this.trail = trail;
     };
@@ -26,7 +27,8 @@ var BoggleMath = require('./BoggleMath');
         // This is a good format to pass to D3
         // eg. [ { x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }, { x: 4, y: 4 } ]
         toCoordinateArray: function() {
-            return this.trail.map(function(pos){
+            return this.trail.map(function(die){
+                var pos = die.get('position');
                 return new BoggleMath(pos).getCoordinates();
             });
         },
@@ -42,12 +44,19 @@ var BoggleMath = require('./BoggleMath');
         // return the position array
         // eg. [ 0, 6, 12, 18 ]
         getPositionArray: function(){
-            return this.trail;
+            return this.trail.map(function(die){
+                return die.get('position');
+            });
+        },
+
+        // get the die at the position i
+        get: function(i){
+            return this.trail[i];
         },
 
         // get the position of the die at i
-        get: function(i){
-            return this.trail[i];
+        getPosition: function(i){
+            return this.trail[i].get('position');
         },
 
         // return how many dice are in this trail
@@ -57,23 +66,24 @@ var BoggleMath = require('./BoggleMath');
 
         // eg. 0 -> 6 -> 12 -> 18
         toString: function() {
-            return this.trail.join(" -> ");
+            return this.trail.getPositionArray().join(" -> ");
         },
 
-        // return an array of BoggleTrail of length 2 (2 dice)
-        // eg. [ { trail: [ 0, 6 ] },
-        //       { trail: [ 6, 12 ] },
-        //       { trail: [ 12, 18 ] } ]
-        split: function(){
-
-            var segments = this.trail.map(function(pos, i, array){
-                var next = array[i+1];
-                return new BoggleTrail([pos, next]);
+        // returns true if this trail includes all the given positions
+        // eg. trail.hasPosition([6, 12]) ==> true
+        hasPositions: function(positions){
+            var trail = this.trail;
+            return positions.every(function(pos, i){
+                return trail.getPositionArray().indexOf(pos) !== -1;
             });
+        },
 
-            segments.pop();
-
-            return segments;
+        // returns true if this trail is exactly the same as the given positions
+        isPositions: function(positions){
+            var trail = this.trail.getPositionArray();
+            return positions.every(function(pos, i){
+                return trail[i] == pos;
+            });
         },
 
         // returns true if this trail is the same as other trail
@@ -82,8 +92,8 @@ var BoggleMath = require('./BoggleMath');
 
             if (this.trail.length != other.trail.length) { return false; }
 
-            var haveSame = function(position, i){
-                return position === other.get(i);
+            var haveSame = function(die, i){
+                return die.get('position') === other.get(i).get('position');
             };
 
             // check if every element is the same in the two trails
@@ -94,6 +104,22 @@ var BoggleMath = require('./BoggleMath');
 
             return false;
 
+        },
+
+        // return an array of BoggleTrail of length 2 (2 dice)
+        // eg. [ { trail: [ 0, 6 ] },
+        //       { trail: [ 6, 12 ] },
+        //       { trail: [ 12, 18 ] } ]
+        split: function(){
+
+            var segments = this.trail.map(function(die, i, array){
+                var next = array[i+1];
+                return new BoggleTrail([die, next]);
+            });
+
+            segments.pop();
+
+            return segments;
         }
 
  

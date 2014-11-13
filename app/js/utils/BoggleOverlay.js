@@ -20,8 +20,9 @@ var BoggleTrail = require('./BoggleTrail');
         // draw a trail (with a different color every time)
         drawTrail: function(trail){
 
-            // only draw first trail
-            if (this.i > 0){ return; }
+            if (trail.constructor === Array){
+                trail = new BoggleTrail(trail);
+            }
 
             // prepare line data
             var lineData = trail.toCoordinateArray();
@@ -38,11 +39,15 @@ var BoggleTrail = require('./BoggleTrail');
                 .attr("data-i", this.i)
                 .attr('opacity', (this.multiColor) ? 1 : 0.3);
 
-            var color = (this.multiColor) ? colors[ this.i % colors.length ]
-                            : (this.i === 0) ? colors[0] 
-                            : colors[1];
 
-            var size = (this.i === 0) ? dieWidth/4 : 4;
+            // var color = (this.multiColor) ? colors[ this.i % colors.length ]
+            //                 : (this.i === 0) ? colors[0] 
+            //                 : colors[1];
+
+            // var size = (this.i === 0) ? dieWidth/4 : 4;
+
+            var color = (this.multiColor) ? colors[ this.i % colors.length ] : colors[0];
+            var size = dieWidth/4;
 
             // draw circle 
             g.insert("circle", ":first-child")
