@@ -1,10 +1,13 @@
 
 @import "../../scss/variables";
 
+$padding: 1rem;
+
 .word-input {
+    position: relative;
     max-width: $board-max-width;
     margin: auto;
-    padding: 1rem;
+    padding: $padding;
     
 
     form {
@@ -47,9 +50,9 @@
             font-family: "Trebuchet MS", sans-serif;
             appearance: none;
             border: 0;
-            font-size: 1em;
+            font-size: 1rem;
             padding: 0;
-            min-width: 1.6em;
+            min-width: 1.6rem;
             cursor: pointer;
             background: none;
 
@@ -87,5 +90,19 @@
 
 
     }
+
+    .notification {
+        position: absolute;
+        margin: $padding - 0.5rem;
+        top: 0; right: 0; bottom: 0; left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $lion-back;
+        color: $lion-front;
+        border-radius: 8px;
+
+    }
+
 }
 

@@ -15,7 +15,22 @@ var WordInput = React.createClass({
         this.props.onChange(word);
     },
 
+    handleNotificationClick: function(){
+        if (this.props.onNotificationClick){
+            this.props.onNotificationClick();
+        }
+    },
+
     render: function(){
+
+        var notification = "";
+        if (this.props.notification){
+            notification = (
+                <div className='notification' onClick={this.handleNotificationClick}>
+                    {this.props.notification}
+                </div>
+            );
+        } 
 
     	return (
     		<div className='word-input'>
@@ -28,6 +43,8 @@ var WordInput = React.createClass({
                     />
                     <button className='submit' type='submit'><span>Go</span></button>
                 </form>
+                {notification}                
+                
     		</div>
     	);
     }

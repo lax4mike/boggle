@@ -1,7 +1,7 @@
-var BoggleBoard = require("../BoggleBoard/BoggleBoardView.jsx");
+var BoggleBoard   = require("../BoggleBoard/BoggleBoardView.jsx");
 var BoggleOverlay = require("../utils/BoggleOverlay.js");
-var WordInput = require("../WordInput/WordInputView.jsx");
-var WordList = require("../WordList/WordListView.jsx");
+var WordInput     = require("../WordInput/WordInputView.jsx");
+var WordList      = require("../WordList/WordListView.jsx");
 
 
 var dict = require("../utils/BoggleDictionary.js");
@@ -13,7 +13,8 @@ var BoggleAppView = React.createClass({
         return {
             clickedDice: [],
             query: '',
-            words: []
+            words: [],
+            notification: ""
         }
     },
 
@@ -22,6 +23,25 @@ var BoggleAppView = React.createClass({
             clickedDice: [],
             query: '',
         });
+    },
+
+    notify: function(notification){
+        this.setState({ notification: notification });
+
+        clearTimeout(this.dismissNotificaion);
+
+        this.dismissNotificaion = setTimeout(function(){
+            this.notify("");
+            clearTimeout(this.dismissNotificaion);
+        }.bind(this), 2000)
+    },
+
+    handleNotificationClick: function(){
+        this.notify("");
+    },
+
+    addWord: function(word){
+        this.setState({ words: this.state.words.concat(word) });
     },
 
     onDieClick: function(die){
@@ -56,16 +76,18 @@ var BoggleAppView = React.createClass({
     // when the user submits the form with a query
     handleSubmit: function(e, word){
 
+        if (!word.length) { return; }
+
         var trails = this.props.boardModel.search(word);
 
         if (trails.length === 0){
-            console.log(word + " isn't on the board!");
+            this.notify(word + " isn't on the board!");
             this.resetQuery();
             return;
         }
 
         if (this.state.words.indexOf(word) != -1){
-            console.log("you already found " + word + "!");
+            this.notify("you already found " + word + "!");
             this.resetQuery();
             return;
         }
@@ -73,16 +95,16 @@ var BoggleAppView = React.createClass({
         if (dict.lookup(word)) {
 
             if (word.length < 4) {
-                console.log(word + " is a word... but it's less than 4 letters!");
+                this.notify(word + " is a word... but it's less than 4 letters!");
                 this.resetQuery();
                 return;
             }
 
-            console.log(word + " is a word!");
-            this.state.words.push(word);
+            // this.notify(word + " is a word!");
+            this.addWord(word);
         }
         else {
-            console.log(word + " isn't a word!");
+            this.notify(word + " isn't a word!");
         }
 
 
@@ -140,6 +162,8 @@ var BoggleAppView = React.createClass({
                     word={this.state.query}
                     onChange={this.handleWordChange} 
                     onSubmit={this.handleSubmit}
+                    notification={this.state.notification}
+                    onNotificationClick={this.handleNotificationClick}
                 />
                 <WordList 
                     words={this.state.words}
