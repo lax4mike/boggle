@@ -8,32 +8,25 @@
 
 */
 
-// given an index, return some surrounding indices
+// given a die position (number), return some surrounding positions
 (function(){
     "use strict";
-
-    // when will es6 be now?  ... sooooon
-    if ( !String.prototype.contains ) {
-        String.prototype.contains = function() {
-            return String.prototype.indexOf.apply( this, arguments ) !== -1;
-        };
-    }
     
     // square is how many row/columns
-    var BoggleMath = function(die, square){
+    var BoggleMath = function(position, square){
         this.square = square || 5;
-        this.die = die;
+        this.position = position;
 
-        // whether or not this.die is on an edge
-        this.top = (this.die <= this.square-1);
-        this.right = (((this.die + 1) % this.square) === 0);
-        this.bottom = (this.die >= (Math.pow(this.square, 2) - this.square));
-        this.left = ((this.die) % this.square === 0);
+        // whether or not this.position is on an edge
+        this.top = (this.position <= this.square-1);
+        this.right = (((this.position + 1) % this.square) === 0);
+        this.bottom = (this.position >= (Math.pow(this.square, 2) - this.square));
+        this.left = ((this.position) % this.square === 0);
     };
 
     BoggleMath.prototype = {
 
-        // returns an object containing indices of adjacent dice
+        // returns an object containing positions of adjacent dice
         // if options.return == 'object' is passed, it will return an object,
         // otherwise it will return an array
         getAdjacent: function(which, options){
@@ -60,43 +53,51 @@
 
                 switch (direction){
                     case 'n':
-                        adj.n = (this.die - this.square); 
+                        adj.n = (this.position - this.square); 
                         break;
                     case 'ne':
-                        adj.ne = (this.die - this.square + 1); 
+                        adj.ne = (this.position - this.square + 1); 
                         break;
                     case 'nw':
-                        adj.nw = (this.die - this.square - 1);
+                        adj.nw = (this.position - this.square - 1);
                         break;
                     case 'e':
-                        adj.e = (this.die + 1);
+                        adj.e = (this.position + 1);
                         break;
                     case 's':
-                        adj.s = (this.die + this.square);
+                        adj.s = (this.position + this.square);
                         break;
                     case 'se':
-                        adj.se = (this.die + this.square + 1);
+                        adj.se = (this.position + this.square + 1);
                         break;
                     case 'sw':
-                        adj.sw = (this.die + this.square - 1);
+                        adj.sw = (this.position + this.square - 1);
                         break;
                     case 'w':
-                        adj.w = (this.die - 1);
+                        adj.w = (this.position - 1);
                         break;
                 }
 
             }.bind(this));
 
             // if options.format == "object", return an object
+            // eg {n: 1, e: 7, s: 11, w:5}
             if (options !== undefined && options.format == "object"){
                 return adj;
             }
 
             // otherwise, return array
+            // eg [1, 7, 11, 5]
             return Object.keys(adj).map(function (direction) {
                 return adj[direction];
             });
 
+        },
+
+        // returns true is this die position is adjacent to the other die position
+        isAdjacent: function(otherPosition){
+            var adj = this.getAdjacent();
+            return (adj.indexOf(otherPosition) !== -1);
         },
 
 
@@ -112,18 +113,28 @@
 
         getCoordinates: function(){
             return {
-                x: (this.die % this.square) + 1,
-                y: Math.floor(this.die / this.square) + 1
+                x: (this.position % this.square) + 1,
+                y: Math.floor(this.position / this.square) + 1
             };
         }
 
     };
 
+
+    module.exports = BoggleMath;
+
+
     // _.range(25).forEach(function(pos){
     //     console.log(new BoggleMath(pos).getCoordinates());
     // });
 
-    module.exports = BoggleMath;
+
+    // when will es6 be now?  ... sooooon
+    if ( !String.prototype.contains ) {
+        String.prototype.contains = function() {
+            return String.prototype.indexOf.apply( this, arguments ) !== -1;
+        };
+    }
 
 }());
 

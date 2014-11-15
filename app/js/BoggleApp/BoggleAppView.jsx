@@ -46,6 +46,13 @@ var BoggleAppView = React.createClass({
 
     onDieClick: function(die){
         var letter = die.get('letter');
+
+        // make sure the clicked die is adjacent
+        var lastDie = this.state.clickedDice.slice(-1).pop();
+        if (lastDie && !die.get('math').isAdjacent(lastDie.get('position'))){
+            return;
+        }
+
         this.setState({
             clickedDice: this.state.clickedDice.concat(die),
             query: (this.state.query + letter).toLowerCase()
