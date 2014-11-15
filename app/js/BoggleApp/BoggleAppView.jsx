@@ -46,18 +46,34 @@ var BoggleAppView = React.createClass({
 
     onDieClick: function(die){
         var letter = die.get('letter');
+        var trailIndex = this.state.clickedDice.indexOf(die);
 
-        // make sure the clicked die is adjacent
+        // make sure the clicked die is not in clickedDice and it's adjacent
         var lastDie = this.state.clickedDice.slice(-1).pop();
-        if (lastDie && !die.get('math').isAdjacent(lastDie.get('position'))){
+        if (trailIndex === -1 && lastDie && !die.get('math').isAdjacent(lastDie.get('position'))){
             return;
         }
 
+        // add this die to clickedDice
+        var newTrail = this.state.clickedDice.concat(die);
+
+        // if we clicked a die that's already in the clickedDice
+        if (trailIndex !== -1) {
+            // slice the clickedDice array down to where they clicked
+            newTrail = this.state.clickedDice.slice(0, trailIndex+1);
+
+            // if they clicked the only die in clickedDice, reset
+            if (this.state.clickedDice.length == 1){ newTrail = []; }
+        }
+
         this.setState({
-            clickedDice: this.state.clickedDice.concat(die),
-            query: (this.state.query + letter).toLowerCase()
+            clickedDice: newTrail,
+            query: newTrail.map(function(die){
+                return die.get('letter');
+            }).join("").toLowerCase()
         });
     },
+
 
     handleWordClick: function(word){
         this.showTrails(word);
