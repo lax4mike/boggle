@@ -10,8 +10,9 @@
     position: relative;
     margin: auto;
     max-width: $board-max-width;
+    user-select: none;
 
-    .trail-overlay {
+    > svg.overlay {
         position: absolute;
         top: 0; left: 0;
         width: 100%;

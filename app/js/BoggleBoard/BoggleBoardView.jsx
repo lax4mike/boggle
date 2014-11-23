@@ -64,7 +64,7 @@ var BoggleBoard = React.createClass({
                             );
                         }, this)}
                     </div>
-                    <svg className="trail-overlay"></svg>
+                    {this.props.children}
                 </div>
             </div>
         );

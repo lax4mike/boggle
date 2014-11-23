@@ -1,7 +1,8 @@
-var BoggleBoard   = require("../BoggleBoard/BoggleBoardView.jsx");
-var BoggleOverlay = require("../utils/BoggleOverlay.js");
-var WordInput     = require("../WordInput/WordInputView.jsx");
-var WordList      = require("../WordList/WordListView.jsx");
+var BoggleBoard        = require("../BoggleBoard/BoggleBoardView.jsx");
+var BoggleTrailOverlay = require("../utils/BoggleTrailOverlay.js");
+var BoggleTraceOverlay = require("../utils/BoggleTraceOverlay.js");
+var WordInput          = require("../WordInput/WordInputView.jsx");
+var WordList           = require("../WordList/WordListView.jsx");
 
 
 var dict = require("../utils/BoggleDictionary.js");
@@ -16,6 +17,15 @@ var BoggleAppView = React.createClass({
             words: [],
             notification: ""
         }
+    },
+
+    componentDidMount: function(){
+        console.log("componentDidMount");
+
+        this.trailSvg = new BoggleTrailOverlay(".overlay--trail");
+
+        this.traceSvg = new BoggleTraceOverlay(".overlay--trace");
+        
     },
 
     resetQuery: function(){
@@ -146,9 +156,11 @@ var BoggleAppView = React.createClass({
         // console.log("------------------");
         // console.log(word);
 
+        // first render, this.trailSvg is undefined (this happens before componentDidMount)
+        if (!(trailSvg = this.trailSvg)) { return; }
+
         // clear the svg every time
-        var svg = new BoggleOverlay('.trail-overlay');
-        svg.clear();
+        trailSvg.clear();
 
         if (trails.length == 0){
             return;
@@ -156,17 +168,17 @@ var BoggleAppView = React.createClass({
 
         // if we've clicked dice, restrict the trail to the clicked dice.
         if (this.state.clickedDice.length){
-            svg.drawTrail(this.state.clickedDice);
+            trailSvg.drawTrail(this.state.clickedDice);
             return;
         }
            
 
         // otherwise, draw first trail
-        // svg.drawTrail(trails[0]);
+        // trailSvg.drawTrail(trails[0]);
 
         // or draw all trails
         trails.forEach(function(trail, i){
-            svg.drawTrail(trail);
+            trailSvg.drawTrail(trail);
         });
 
     },
@@ -180,7 +192,10 @@ var BoggleAppView = React.createClass({
                 <BoggleBoard 
                     boardModel={this.props.boardModel}
                     onDieClick={this.onDieClick}
-                />
+                    >
+                    <svg className="overlay overlay--trace"></svg>
+                    <svg className="overlay overlay--trail"></svg>
+                </BoggleBoard>
                 <WordInput 
                     word={this.state.query}
                     onChange={this.handleWordChange} 

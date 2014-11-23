@@ -2,8 +2,21 @@ var BoggleTrail = require('./BoggleTrail');
 
 (function(){
 
-    // BoggleOverlay 
-    var BoggleOverlay = function(selector) {
+    // private variables
+    var dieWidth = 0;
+
+    var colors = [
+        "rgba( 52, 152, 219, 1)", // blue
+        "rgba(231,  76, 60,  1)", // red
+        "rgba(241, 196, 15,  1)", // yellow
+        "rgba( 46, 204, 113, 1)", // green
+        "rgba(155,  89, 182, 1)", // purple
+    ];
+
+
+
+    // BoggleTrailOverlay 
+    var BoggleTrailOverlay = function(selector) {
         this.selector = selector;
         this.svg = d3.select(selector);
         this.i = 0; // to keep track of colors
@@ -15,7 +28,7 @@ var BoggleTrail = require('./BoggleTrail');
 
     };
 
-    BoggleOverlay.prototype = {
+    BoggleTrailOverlay.prototype = {
 
         // draw a trail (with a different color every time)
         drawTrail: function(trail){
@@ -96,19 +109,6 @@ var BoggleTrail = require('./BoggleTrail');
 
     };
 
-    module.exports = BoggleOverlay;
-
-
-    // private variables
-    var dieWidth = 0;
-
-    var colors = [
-        "rgba( 52, 152, 219, 1)", // blue
-        "rgba(231,  76, 60,  1)", // red
-        "rgba(241, 196, 15,  1)", // yellow
-        "rgba( 46, 204, 113, 1)", // green
-        "rgba(155,  89, 182, 1)", // purple
-    ];
-
+    module.exports = BoggleTrailOverlay;
 
 }());
