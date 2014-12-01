@@ -1,7 +1,7 @@
 @import "../../scss/variables";
 
 .word-list {
-    max-width: $board-max-width;
+    // max-width: $board-max-width;
     margin: auto;
 
     .word {
@@ -12,6 +12,22 @@
         background: #e0ffe0;
         padding: 0.25rem 1rem;
         cursor: pointer;
+    }
+
+    .score {
+        display: inline-block;
+        margin: 0 1rem;
+    }
+
+}
+
+
+@media (min-width: $media-2col ) {
+    
+    .word-list {
+        .word {
+            display: block;
+        }
     }
 
 }

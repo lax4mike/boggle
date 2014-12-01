@@ -22,8 +22,7 @@
     BoggleTraceOverlay.prototype = {
         
         initialize: function(){
-            console.log("INIT!", this.selector);
-
+            
             $(this.selector).parent().on("touchstart", this.handleTouchstart.bind(this));
             $(this.selector).parent().on("touchend", this.handleTouchend.bind(this));
             $(this.selector).parent().on("touchmove", this.handleTouchmove.bind(this));

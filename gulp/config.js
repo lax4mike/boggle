@@ -43,15 +43,13 @@ exports.js = {
     watch: [ 
     	[ root + "js/**/*.js", root + "js/**/*.jsx" ]
     ],
-    dest: dest + "js/"
+    dest: dest + "js/",
+    bower: root + "vendor/"
 };
 
 exports.vendor = {
     bower: root + "vendor/",
     additional: [
-    	// not sure why main-bower-files isn't picking this up
-    	// fuck it, i wrote my own utils
-        // root + "vendor/js/bower_components/react-addons/index.js"
         root + "js/utils/words.js"
     ]
 };

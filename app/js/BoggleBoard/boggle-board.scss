@@ -25,9 +25,6 @@
     display: flex;
     flex-flow: row wrap;
 
-
-
-
     .boggle-die {
         flex: 0 0 percentage(1/$board-size);
     }

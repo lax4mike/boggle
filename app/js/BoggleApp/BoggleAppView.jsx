@@ -20,12 +20,13 @@ var BoggleAppView = React.createClass({
     },
 
     componentDidMount: function(){
-        console.log("componentDidMount");
-
+        // after we load this component, add the overlays
         this.trailSvg = new BoggleTrailOverlay(".overlay--trail");
-
         this.traceSvg = new BoggleTraceOverlay(".overlay--trace");
         
+        // testing data
+        // this.addWord("poo");
+        // this.addWord("shoe");
     },
 
     resetQuery: function(){
@@ -35,6 +36,7 @@ var BoggleAppView = React.createClass({
         });
     },
 
+    // show notification
     notify: function(notification){
         this.setState({ notification: notification });
 
@@ -47,12 +49,15 @@ var BoggleAppView = React.createClass({
     },
 
     handleNotificationClick: function(){
+        // clear the notification if it's clicked
         this.notify("");
     },
 
+    // add a word to the WordList
     addWord: function(word){
         this.setState({ words: this.state.words.concat(word) });
     },
+
 
     onDieClick: function(die){
         var letter = die.get('letter');
@@ -144,6 +149,7 @@ var BoggleAppView = React.createClass({
         this.resetQuery();
     },
 
+    // show the trail of the current query
     showQueryTrails: function(){
         var word = this.state.query;
         this.showTrails(word);
@@ -195,14 +201,15 @@ var BoggleAppView = React.createClass({
                     >
                     <svg className="overlay overlay--trace"></svg>
                     <svg className="overlay overlay--trail"></svg>
+                    <WordInput 
+                        word={this.state.query}
+                        onChange={this.handleWordChange} 
+                        onSubmit={this.handleSubmit}
+                        notification={this.state.notification}
+                        onNotificationClick={this.handleNotificationClick}
+                    />
                 </BoggleBoard>
-                <WordInput 
-                    word={this.state.query}
-                    onChange={this.handleWordChange} 
-                    onSubmit={this.handleSubmit}
-                    notification={this.state.notification}
-                    onNotificationClick={this.handleNotificationClick}
-                />
+                
                 <WordList 
                     words={this.state.words}
                     onClick={this.handleWordClick}

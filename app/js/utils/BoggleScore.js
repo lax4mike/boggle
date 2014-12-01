@@ -1,9 +1,4 @@
 
-
-
-
-
-
 var BoggleScore = {
 
 
@@ -55,7 +50,7 @@ var BoggleScore = {
 };
 
 
-
+module.exports = BoggleScore;
 
 
 var scrabble = [
@@ -91,6 +86,6 @@ var scrabble = [
 
 
 
-console.log(BoggleScore.getScrabbleScore("boggle"));
+// console.log(BoggleScore.getScrabbleScore("boggle"));
 
 

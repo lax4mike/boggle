@@ -9,8 +9,11 @@
 
         lookup: function(word){
 
+            if (!window.words){ 
+                throw new ReferenceError("window.words not loaded!");
+            }
+
             if ( window.words.indexOf( " " + word + " " ) >= 0 ) {
-                // We've found the word and we can stop
                 return true;
             }
 

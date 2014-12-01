@@ -2,6 +2,8 @@
 $board-max-width: 380px;
 $board-size: 5;
 
+$media-2col: $board-max-width * 1.5;
+
 $lion-back: rgba(52, 152, 219, 1); // blue
 $lion-ghost: rgba(52, 152, 219, 0.7);
 $lion-front: #fff; // white
