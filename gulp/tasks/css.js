@@ -15,7 +15,7 @@ gulp.task('css', function(){
         .pipe(sass(config.sass))
         .pipe(autoprefixer(config.autoprefixer))
         .pipe(pixrem())
-        .pipe(concat('index.css'))
+        .pipe(concat(config.css.filename))
         .pipe(gulp.dest(config.css.dest));
 });
 

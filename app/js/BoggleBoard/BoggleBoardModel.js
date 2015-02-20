@@ -2,7 +2,7 @@ var BoggleDieModel = require("../BoggleDie/BoggleDieModel");
 var BoggleTrail = require("../utils/BoggleTrail");
 var BoggleMath = require("../utils/BoggleMath");
 
-var BoggleBoard = Backbone.Model.extend({
+var BoggleBoardModel = Backbone.Model.extend({
 
     defaults: {
         "square":  5,
@@ -106,6 +106,12 @@ var BoggleBoard = Backbone.Model.extend({
             return allDice.at(i); 
         });
 
+    },
+
+
+    // returna list of all the words in this board
+    solve: function() {
+
     }
 
 });
@@ -148,4 +154,4 @@ var diceSides = [
 
 
 
-module.exports = BoggleBoard;
+module.exports = BoggleBoardModel;

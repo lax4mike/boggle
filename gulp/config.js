@@ -29,7 +29,8 @@ exports.css = {
 		root + "scss/**/*.scss",
 		root + "js/**/*.scss"
 	],
-	dest: dest + "css"
+	dest: dest + "css",
+	filename: "index.css"
 };
 
 //sass config

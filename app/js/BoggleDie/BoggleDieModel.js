@@ -1,6 +1,6 @@
 var BoggleMath = require("../utils/BoggleMath");
 
-var BoggleDie = Backbone.Model.extend({
+var BoggleDieModel = Backbone.Model.extend({
 
     defaults: {
         letters: [],
@@ -38,4 +38,4 @@ var BoggleDie = Backbone.Model.extend({
 
 });
 
-module.exports = BoggleDie;
+module.exports = BoggleDieModel;

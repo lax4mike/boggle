@@ -1,6 +1,6 @@
 var BoggleScore = require("../utils/BoggleScore.js");
 
-var WordList = React.createClass({
+var WordListView = React.createClass({
 
     handleClick: function(word){
         // pass it up
@@ -48,4 +48,4 @@ var WordList = React.createClass({
 
 });
 
-module.exports = WordList;
+module.exports = WordListView;

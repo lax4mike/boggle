@@ -17,17 +17,17 @@ gulp.task('connect', ['server'], function(){
     var server = require("../" + config.build + '/server/server.js'); 
     
     browserSync({
-		proxy: "localhost:3000",
-		port: 8080,
-		open: false, // or  "external"
-		notify: false,
-		ghostMode: false,
-		files: [
-			config.dest + "/**"
-		]
-	});
+        proxy: "localhost:3000",
+        port: 8080,
+        open: false, // or  "external"
+        notify: false,
+        ghostMode: false,
+        files: [
+            config.dest + "/**"
+        ]
+    });
 
-	// gulp.watch(config.dest + '/**', [browserSync.reload]);
+    // gulp.watch(config.dest + '/**', [browserSync.reload]);
 
 });
 

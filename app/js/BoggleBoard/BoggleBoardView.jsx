@@ -1,7 +1,7 @@
 var BoggleDie = require("../BoggleDie/BoggleDieView.jsx");
 var BoggleMath = require("../utils/BoggleMath");
 
-var BoggleBoard = React.createClass({
+var BoggleBoardView = React.createClass({
 
     // extract some variables from the boardModel
     componentWillMount: function(){
@@ -73,4 +73,4 @@ var BoggleBoard = React.createClass({
 
 });
 
-module.exports = BoggleBoard;
+module.exports = BoggleBoardView;
