@@ -9,11 +9,11 @@
 
         lookup: function(word){
 
-            if (!window.words){ 
-                throw new ReferenceError("window.words not loaded!");
+            if (!window.boggleWords){ 
+                throw new ReferenceError("window.boggleWords not loaded!");
             }
 
-            if ( window.words.indexOf( " " + word + " " ) >= 0 ) {
+            if ( window.boggleWords.indexOf( " " + word + " " ) >= 0 ) {
                 return true;
             }
 

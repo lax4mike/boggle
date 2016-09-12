@@ -1,88 +1,88 @@
-var gulp           = require('gulp'),
-    config         = require('../config'),
-    utils          = require('./utils'),
-    concat         = require('gulp-concat'),
-    filter         = require('gulp-filter'),
-    browserify     = require('browserify'),
-    reactify       = require('reactify'),
-    gulpBrowserify = require('gulp-browserify'),
-    react          = require('gulp-react'),
-    uglify         = require('gulp-uglify'),
-    source         = require('vinyl-source-stream'), // https://medium.com/@sogko/gulp-browserify-the-gulp-y-way-bb359b3f9623
-    mainBowerFiles = require('main-bower-files');
+var gulp           = require("gulp"),
+    quench         = require("../quench.js"),
+    uglify         = require("gulp-uglify"),
+    rename         = require("gulp-rename"),
+    cached         = require("gulp-cached"),
+    debug          = require("gulp-debug"),
+    sourcemaps     = require("gulp-sourcemaps"),
+    browserify     = require("browserify"),
+    through2       = require("through2"),
+    babelify       = require("babelify");
 
-// maybe we'll do this someday if we can integrate it with bower
-// http://lincolnloop.com/blog/speedy-browserifying-multiple-bundles/
+module.exports = function jsTask(config, env){
 
+    var jsConfig = {
+        pages: config.root + "/js/index.js",
+        dest: config.dest + "/js",
+        // js uglify options.
+        uglify: {},
+        // browserify options
+        browserify: {
+            // enable sourcemaps for development
+            debug: env.development()
+        }
+    };
 
-
-/* js */
-gulp.task('js', ['app-js', 'vendor']);
-
-
-
-/* compile application javascript */
-gulp.task('app-js', function(){
-
-    // return browserify(config.js.src)
-    //     .transform(reactify) // use the reactify transform
-    //     .bundle()
-    //     .pipe(utils.drano())
-    //     .pipe(source('index.js'))
-    //     .pipe(gulp.dest(config.js.dest));
-
-    // generate index.js
-    return  gulp.src(config.js.src)
-        .pipe(utils.drano())
-        .pipe(gulpBrowserify(config.browserify))
-        .pipe(react())
-        .pipe(gulp.dest(config.js.dest));
+    // register the watch
+    quench.registerWatcher("js", [
+        config.root + "/js/**/*.js",
+        config.root + "/js/**/*.jsx"
+    ]);
 
 
-});
+    /* compile application javascript */
+    gulp.task("js", function(){
 
-// watch js
-if (config.watch){
-    console.log('watching: js');
-    gulp.watch(config.js.watch, ['app-js']);
+        var commonPackages = quench.getInstalledNPMPackages();
+
+        return gulp.src(jsConfig.pages)
+            .pipe(quench.drano())
+            .pipe(bundleEm(jsConfig.browserify, commonPackages))
+            .pipe(sourcemaps.init({ loadMaps: true })) // loads map from browserify file
+            .pipe(env.production( uglify(jsConfig.uglify) ))
+            .pipe(rename({
+                suffix: "-generated"
+            }))
+            .pipe(sourcemaps.write("./"))
+            // prevent unchanged files from passing through, this prevents browserSync from reloading twice
+            .pipe(cached("js"))
+            .pipe(gulp.dest(jsConfig.dest))
+            .pipe(debug({title: "js: "}));
+
+    });
 }
 
 
 
+// Create a bundle of the files in the stream using browserify
+function bundleEm(browserifyOptions, externalPackages){
 
-/* bundle up vendor libraries (from bower) */
-// http://engineroom.teamwork.com/hassle-free-third-party-dependencies/
-gulp.task('vendor', function(next){
+    return through2.obj(function (file, enc, callback){
 
-    // generate vendor.js
-    var bowerfiles = mainBowerFiles({
-        includeDev: true,
-        paths: config.vendor.bower
+        // https://github.com/substack/node-browserify/issues/1044#issuecomment-72384131
+        var b = browserify(browserifyOptions || {}) // pass options
+            .add(file.path) // this file
+            .transform(babelify, { presets: ["es2015", "react"] }); // run it through babel, for es6 transpiling
+
+        // externalize common packages
+        try {
+            externalPackages.forEach(function(p){
+                b.external(p);
+            });
+
+            // quench.logYellow("common npm packages", externalPackages);
+        }
+        catch(e) { console.log("ERRR", e); /* do nothing */ }
+
+        b.bundle(function(err, res){
+            if (err){
+                callback(err, null); // emit error so drano can do it's thang
+            }
+            else {
+                file.contents = res; // assumes file.contents is a Buffer
+                callback(null, file); // pass file along
+            }
+        });
+
     });
-
-    // add other third party files
-    config.vendor.additional.forEach(function(file){
-        bowerfiles.push(file);
-    });
-
-    console.log("bower files: ", bowerfiles);
-
-    gulp.src(bowerfiles)
-        .pipe(utils.drano())
-        .pipe(filterByExtension('js'))
-        .pipe(concat('vendor.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(config.js.dest));
-
-    next();
-});
-
-
-var filterByExtension = function(extension){  
-    return filter(function(file){
-        return file.path.match(new RegExp('.' + extension + '$'));
-    });
-};
-
-
-
+}

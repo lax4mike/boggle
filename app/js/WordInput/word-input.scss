@@ -8,7 +8,7 @@ $padding: 1rem;
     max-width: $board-max-width;
     margin: auto;
     padding: $padding;
-    
+
 
     form {
         display: flex;
@@ -20,7 +20,7 @@ $padding: 1rem;
         background: #fff;
         border: 1px solid #999;
 
-        
+
 
         &::first-child {
             border-top-left-radius: $radius;
@@ -31,6 +31,7 @@ $padding: 1rem;
             flex: 1 1 auto;
             font-size: 1em;
             max-width: 100%;
+            min-width: 0;
             text-align: center;
             -webkit-appearance: none;
             appearance: none;
@@ -83,7 +84,7 @@ $padding: 1rem;
             display: flex;
 
             svg {
-                
+
                 padding: 0 0.25rem;
             }
         }
@@ -105,4 +106,3 @@ $padding: 1rem;
     }
 
 }
-

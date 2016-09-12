@@ -16,11 +16,12 @@ var BoggleTrail = require('./BoggleTrail');
 
 
     // BoggleTrailOverlay 
+    // Draws the die trail on an SVG
     var BoggleTrailOverlay = function(selector) {
         this.selector = selector;
         this.svg = d3.select(selector);
         this.i = 0; // to keep track of colors
-        dieWidth = $('.boggle-die').width();
+        dieWidth = $(".boggle-die").width();
 
         this.multiColor = false; 
 
@@ -104,7 +105,7 @@ var BoggleTrail = require('./BoggleTrail');
 
         // clear the svg
         clear: function(){ 
-            d3.selectAll(this.selector + ' *').remove();
+            d3.selectAll(this.selector + " *").remove();
         }
 
     };

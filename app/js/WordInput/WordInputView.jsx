@@ -5,6 +5,14 @@ var WordInput = React.createClass({
     	this.props.onChange(word);
     },
 
+    handleFocus: function(e){
+        this.handleChange(e);
+
+        if (this.props.onFocus){
+            this.props.onFocus();
+        }
+    },
+
     handleSubmit: function(e){
         e.preventDefault()
         this.props.onSubmit(e, this.props.word);
@@ -30,7 +38,7 @@ var WordInput = React.createClass({
                     {this.props.notification}
                 </div>
             );
-        } 
+        }
 
     	return (
     		<div className='word-input'>
@@ -39,12 +47,12 @@ var WordInput = React.createClass({
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 54.035 37"><g fill="none" stroke="#666" strokeWidth="5" stroke-miterlimit="10"><path d="M26.208 25.827l14.654-14.654M26.208 11.173l14.654 14.654"/></g><path fill="none" stroke="#666" strokeWidth="5" stroke-miterlimit="10" d="M19.535 34.5h32v-32h-32l-16 16z"/></svg>
                     </button>
                     <input type='text' value={this.props.word}
-                        onChange={this.handleChange} onFocus={this.handleChange}
+                        onChange={this.handleChange} onFocus={this.handleFocus}
                     />
                     <button className='submit' type='submit'><span>Go</span></button>
                 </form>
-                {notification}                
-                
+                {notification}
+
     		</div>
     	);
     }

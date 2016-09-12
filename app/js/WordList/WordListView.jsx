@@ -1,6 +1,13 @@
+var classNames = require("classnames");
 var BoggleScore = require("../utils/BoggleScore.js");
 
 var WordListView = React.createClass({
+
+    propTypes: {
+        words : React.PropTypes.array,
+        onClick: React.PropTypes.func,
+        selectedWord: React.PropTypes.string
+    },
 
     handleClick: function(word){
         // pass it up
@@ -9,9 +16,10 @@ var WordListView = React.createClass({
 
     render: function(){
 
+        var selectedWord = this.props.selectedWord;
         var list = this.props.words.slice(0).reverse();
 
-        var totalBoggle = 0;  
+        var totalBoggle = 0;
         var totalScrabble = 0;
 
         var wordList = list.map(function(word, i){
@@ -20,8 +28,13 @@ var WordListView = React.createClass({
             var scrabbleScore = BoggleScore.getScrabbleScore(word);
             totalBoggle += boggleScore;
             totalScrabble += scrabbleScore;
+
+            var classes = classNames("word", {
+                "is-selected": selectedWord && (word.toLowerCase() === selectedWord.toLowerCase())
+            });
+
             return (
-                <div className='word' 
+                <div className={classes}
                     key={i}
                     onClick={this.handleClick.bind(this, word)}
                 >

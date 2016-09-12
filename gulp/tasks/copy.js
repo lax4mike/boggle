@@ -1,25 +1,27 @@
-var gulp           = require('gulp'),
-    utils          = require('./utils'),
-    config         = require('../config');
+var gulp   = require("gulp"),
+    quench = require("../quench.js"),
+    debug  = require("gulp-debug");
+
+module.exports = function copyTask(config, env){
+
+    // copy files settings
+    var copy = {
+        src: [
+            config.root + "/index.html"
+        ],
+        dest: config.dest
+    };
+
+    // register the watch
+    quench.registerWatcher("copy", copy.src);
 
 
+    /* copy files */
+    gulp.task("copy", function(next) {
 
-/* html */
-gulp.task('html', function() {
-
-    // html
-   return gulp.src(config.html.src)
-        .pipe(utils.drano())
-        .pipe(gulp.dest(config.html.dest));
-
-});
-
-// watch html
-if (config.watch){
-    console.log('watching: html');
-    gulp.watch(config.html.watch, ['html']);
-}
-
-
-
-gulp.task('copy', ['html']); 
+        return gulp.src(copy.src)
+            .pipe(quench.drano())
+            .pipe(gulp.dest(copy.dest))
+            .pipe(debug({title: "copy:"}));
+    });
+};

@@ -13,9 +13,10 @@ var BoggleAppView = React.createClass({
     getInitialState: function(){
         return {
             clickedDice: [],
-            query: '',
+            query: "",
             words: [],
-            notification: ""
+            notification: "",
+            selectedWord: ""
         }
     },
 
@@ -23,7 +24,7 @@ var BoggleAppView = React.createClass({
         // after we load this component, add the overlays
         this.trailSvg = new BoggleTrailOverlay(".overlay--trail");
         this.traceSvg = new BoggleTraceOverlay(".overlay--trace");
-        
+
         // testing data
         // this.addWord("poo");
         // this.addWord("shoe");
@@ -60,12 +61,12 @@ var BoggleAppView = React.createClass({
 
 
     onDieClick: function(die){
-        var letter = die.get('letter');
+        var letter = die.get("letter");
         var trailIndex = this.state.clickedDice.indexOf(die);
 
         // make sure the clicked die is not in clickedDice and it's adjacent
         var lastDie = this.state.clickedDice.slice(-1).pop();
-        if (trailIndex === -1 && lastDie && !die.get('math').isAdjacent(lastDie.get('position'))){
+        if (trailIndex === -1 && lastDie && !die.get("math").isAdjacent(lastDie.get("position"))){
             return;
         }
 
@@ -84,14 +85,16 @@ var BoggleAppView = React.createClass({
         this.setState({
             clickedDice: newTrail,
             query: newTrail.map(function(die){
-                return die.get('letter');
+                return die.get("letter");
             }).join("").toLowerCase()
         });
     },
 
 
     handleWordClick: function(word){
-        this.showTrails(word);
+        this.setState({
+            selectedWord: word
+        });
     },
 
     // only from the word input!
@@ -105,7 +108,7 @@ var BoggleAppView = React.createClass({
             var clickedDice = this.state.clickedDice.slice(0, -1);
         }
 
-        this.setState({ 
+        this.setState({
             query: word.toLowerCase(),
             clickedDice: clickedDice
         });
@@ -158,12 +161,14 @@ var BoggleAppView = React.createClass({
     showTrails: function(word){
 
         var trails = this.props.boardModel.search(word);
-        
+        var trailSvg = this.trailSvg;
+
         // console.log("------------------");
         // console.log(word);
 
+
         // first render, this.trailSvg is undefined (this happens before componentDidMount)
-        if (!(trailSvg = this.trailSvg)) { return; }
+        if (!(trailSvg)) { return; }
 
         // clear the svg every time
         trailSvg.clear();
@@ -177,7 +182,7 @@ var BoggleAppView = React.createClass({
             trailSvg.drawTrail(this.state.clickedDice);
             return;
         }
-           
+
 
         // otherwise, draw first trail
         // trailSvg.drawTrail(trails[0]);
@@ -191,28 +196,35 @@ var BoggleAppView = React.createClass({
 
     render: function(){
 
-        this.showQueryTrails();
+        if (this.state.selectedWord){
+            this.showTrails(this.state.selectedWord);
+        }
+        else {
+            this.showQueryTrails();
+        }
 
         return (
             <div className="boggle-app">
-                <BoggleBoard 
+                <BoggleBoard
                     boardModel={this.props.boardModel}
                     onDieClick={this.onDieClick}
                     >
                     <svg className="overlay overlay--trace"></svg>
                     <svg className="overlay overlay--trail"></svg>
-                    <WordInput 
+                    <WordInput
                         word={this.state.query}
-                        onChange={this.handleWordChange} 
+                        onChange={this.handleWordChange}
+                        onFocus={() => this.setState({selectedWord: ""})}
                         onSubmit={this.handleSubmit}
                         notification={this.state.notification}
                         onNotificationClick={this.handleNotificationClick}
                     />
                 </BoggleBoard>
-                
-                <WordList 
+
+                <WordList
                     words={this.state.words}
                     onClick={this.handleWordClick}
+                    selectedWord={this.state.selectedWord}
                  />
             </div>
         );

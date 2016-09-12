@@ -3,30 +3,52 @@
 .word-list {
     // max-width: $board-max-width;
     margin: auto;
+    padding: 0 12px;
 
     .word {
         display: inline-block;
-        margin: 0.25rem;
-        border-radius: 6px;
-        border: 1px solid #000;
-        background: #e0ffe0;
-        padding: 0.25rem 1rem;
+        padding: 0.25rem 0.5rem;
         cursor: pointer;
+
+        &:hover {
+            background-color: rgba(#99f, 0.2);
+        }
+
+        &.is-selected {
+            font-weight: bold;
+        }
+
+        + .word {
+            border-left: 1px solid #ccc;
+        }
     }
 
     .score {
-        display: inline-block;
-        margin: 0 1rem;
+        display: block;
+        padding-bottom: 0.5em;
+
+        > div {
+            display: inline-block;
+             + div {
+                 padding-left: 1rem;
+             }
+        }
     }
 
 }
 
 
 @media (min-width: $media-2col ) {
-    
+
     .word-list {
+        padding-left: 16px;
+
         .word {
             display: block;
+            + .word {
+                border-left: 0;
+                border-top: 1px solid #ccc;
+            }
         }
     }
 

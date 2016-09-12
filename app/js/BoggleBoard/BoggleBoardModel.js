@@ -7,14 +7,14 @@ var BoggleBoardModel = Backbone.Model.extend({
     defaults: {
         "square":  5,
         "dice": []
-    },  
+    },
 
-    initialize: function() { 
+    initialize: function() {
 
         // create dice and shuffle
         var totalDice = Math.pow(this.get("square"), 2);
         var boggleDice = _.shuffle(_.map(_.range(totalDice), function(i){
-            
+
             return new BoggleDieModel({
                 letters: diceSides[i]
             });
@@ -27,7 +27,7 @@ var BoggleBoardModel = Backbone.Model.extend({
             die.set('position', position);
         });
 
-        // pass this array to the dice colleciton   
+        // pass this array to the dice colleciton
         this.set('dice', new BoggleDiceCollection(boggleDice));
 
     },
@@ -40,7 +40,7 @@ var BoggleBoardModel = Backbone.Model.extend({
 
         // for all 25 dice, recurse to try to find this query
         this.get('dice').forEach(function(die, i){
-            
+
             var trails = this.recurseSearch(die, query);
 
             if (trails.length > 0){
@@ -59,7 +59,7 @@ var BoggleBoardModel = Backbone.Model.extend({
     recurseSearch: function(die, query, trail, trails){
 
         if (trail === undefined){ trail = []; }
-        if (trails === undefined){ trails = []; } 
+        if (trails === undefined){ trails = []; }
 
         query = query.toLowerCase();
         var letter = die.get('letter').toLowerCase();
@@ -72,7 +72,7 @@ var BoggleBoardModel = Backbone.Model.extend({
 
             // take off the first letter (or double letter from the double letter cube...)
             var subQuery = query.slice(letter.length);
-            
+
             // add this die to the trail
             trail.push(die);
 
@@ -88,12 +88,12 @@ var BoggleBoardModel = Backbone.Model.extend({
             this.getAdjacentDice(die).forEach(function(neighbor){
                 // make a new copy of the trail, and recurse
                 this.recurseSearch(neighbor, subQuery, trail.slice(0), trails);
-            }.bind(this)); 
+            }.bind(this));
 
         }
-        
+
         return trails;
-        
+
     },
 
     // return an array of all surrounding dice from the given die
@@ -101,17 +101,18 @@ var BoggleBoardModel = Backbone.Model.extend({
 
         var neighbors = die.get('math').getAdjacent(); // just positions
         var allDice = this.get('dice');
-        
+
         return neighbors.map(function(i){
-            return allDice.at(i); 
+            return allDice.at(i);
         });
 
     },
 
 
-    // returna list of all the words in this board
+    // returns a list of all the words in this board
     solve: function() {
 
+        // TODO
     }
 
 });
